@@ -1,0 +1,51 @@
+esphome:
+  name: doorbell
+  friendly_name: Doorbell
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+ota:
+  platform: esphome
+api:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: 192.168.3.123
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+
+mqtt:
+  broker: '192.168.3.12'
+  discovery: false
+  port: 1883
+
+sensor:
+  - platform: adc
+    pin: GPIO34
+    name: 'Doorbell Signal Voltage'
+    id: doorbell_signal_voltage
+    update_interval: 500ms
+    attenuation: 11db
+    filters:
+      - sliding_window_moving_average:
+          window_size: 5
+          send_every: 1
+
+binary_sensor:
+  - platform: analog_threshold
+    name: 'Doorbell Trigger'
+    sensor_id: doorbell_signal_voltage
+    threshold: 2.0
+    filters:
+      - delayed_off: 3s
+    on_press:
+      - logger.log: 'Doorbell threshold crossed!'
+      - mqtt.publish:
+          topic: home/doorbell/ring
+          payload: '1'
