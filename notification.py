@@ -5,7 +5,7 @@ import time
 import paho.mqtt.client as mqtt
 import pygame
 
-MQTT_BROKER = "192.168.3.12"
+MQTT_BROKER = "192.168.3.4"
 MQTT_TOPIC = "home/doorbell/ring"
 SOUND_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), "notification.mp3")
 

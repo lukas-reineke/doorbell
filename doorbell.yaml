@@ -21,7 +21,7 @@ wifi:
     subnet: 255.255.255.0
 
 mqtt:
-  broker: '192.168.3.12'
+  broker: '192.168.3.4'
   discovery: false
   port: 1883
 
@@ -41,7 +41,7 @@ binary_sensor:
   - platform: analog_threshold
     name: 'Doorbell Trigger'
     sensor_id: doorbell_signal_voltage
-    threshold: 2.0
+    threshold: 0.5
     filters:
       - delayed_off: 3s
     on_press:
