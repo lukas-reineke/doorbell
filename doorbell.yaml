@@ -19,6 +19,7 @@ wifi:
     static_ip: 192.168.3.123
     gateway: 192.168.1.1
     subnet: 255.255.255.0
+  power_save_mode: none
 
 mqtt:
   broker: '192.168.3.4'
